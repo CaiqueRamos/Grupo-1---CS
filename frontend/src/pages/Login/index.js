@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Text, HStack, Flex, Box, Image, Link, Input, Alert, AlertIcon } from '@chakra-ui/react'
 import { UserContext } from "../../context/HandleUser"
 import { Button } from "../../components/Button";
@@ -10,17 +10,17 @@ import { useMediaContext } from "../../hook/useMediaContext";
 
 export const Login = () => {
 
-    const { authenticate, handleLogin, emailAndPasswordInvalid, setEmailAndPasswordInvalid } = useContext(UserContext);
+    const { authenticate, setAuthenticate, handleLogin, emailAndPasswordInvalid, setEmailAndPasswordInvalid } = useContext(UserContext);
     const { isDesktop } = useMediaContext();
-    const [inputLogin, setInputLogin] = useState();
-    const [inputPassword, setInputPassword] = useState();
+    const [inputLogin, setInputLogin] = useState('');
+    const [inputPassword, setInputPassword] = useState('');
 
 
-    const validLogin = (inputLogin, inputPassword) => {
+    const validLogin = () => {
         if (inputLogin && inputPassword) {
             handleLogin(inputLogin, inputPassword)
         } else {
-            setEmailAndPasswordInvalid(false);
+            setEmailAndPasswordInvalid(true);
         }
     }
 
@@ -47,7 +47,7 @@ export const Login = () => {
                     <Input type={"password"} value={inputPassword} onChange={e => setInputPassword(e.target.value)} placeholder={"Informe sua senha"} bgColor="white" mb="20px" />
                 </Box>
                 <Box mb="20px">
-                    <Button activeButton={() => validLogin(inputLogin, inputPassword)} text={'Acessar'} />
+                    <Button activeButton={() => validLogin()} text={'Acessar'} />
                     <Box>
                         {!emailAndPasswordInvalid &&
                             <Alert status='error' mt="20px">

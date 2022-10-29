@@ -208,10 +208,10 @@ export const Gestao = () => {
                                     </ModalBody>
 
                                     <ModalFooter>
-                                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                        <Button variant='ghost' mr={3} onClick={onClose}>
                                             Cancelar
                                         </Button>
-                                        <Button variant='ghost' onClick={handleSubmit}>Salvar</Button>
+                                        <Button colorScheme='blue' onClick={handleSubmit}>Salvar</Button>
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
@@ -228,7 +228,7 @@ export const Gestao = () => {
                                 </Thead>
                                 <Tbody>
                                     {
-                                        allUsers.data.map((e) => {
+                                        allUsers.data.map((e, index) => {
                                             return (
                                                 <Tr key={e.idusuario}>
                                                     <Td>
@@ -373,10 +373,10 @@ export const Gestao = () => {
                                     </ModalBody>
 
                                     <ModalFooter>
-                                        <Button colorScheme='blue' mr={3} onClick={onClose}>
+                                        <Button variant='ghost' mr={3} onClick={onClose}>
                                             Cancelar
                                         </Button>
-                                        <Button variant='ghost' onClick={handleSubmit}>Salvar</Button>
+                                        <Button colorScheme='blue' onClick={handleSubmit}>Salvar</Button>
                                     </ModalFooter>
                                 </ModalContent>
                             </Modal>
