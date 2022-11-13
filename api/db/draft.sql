@@ -1,6 +1,6 @@
 CREATE TABLE "Usuario" (
 	"idusuario" serial,
-	"senha" VARCHAR(155) NOT NULL UNIQUE,
+	"senha" VARCHAR(155) NOT NULL,
 	"email" VARCHAR(155) NOT NULL UNIQUE,
 	"fkpapel" serial NOT NULL,
    	"fkpessoa" serial NOT NULL,
