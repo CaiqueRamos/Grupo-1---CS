@@ -1,4 +1,3 @@
--- Active: 1664735649670@@ec2-3-219-19-205.compute-1.amazonaws.com@5432@d8n9fvinrsia2j@public
 CREATE TABLE "Usuario" (
 	"idusuario" serial,
 	"senha" VARCHAR(155) NOT NULL UNIQUE,
@@ -21,11 +20,11 @@ CREATE TABLE "Pessoa" (
 
 CREATE TABLE "Endereco" (
 	"idendereco" serial,
-	"pais" VARCHAR(50) NOT NULL UNIQUE DEFAULT 'Brasil',
-	"cep" INTEGER NOT NULL UNIQUE,
-	"estadoSigla" VARCHAR(2) NOT NULL UNIQUE DEFAULT 'MS',
-	"estado" VARCHAR(255) NOT NULL UNIQUE DEFAULT 'Mato Grosso do Sul',
-	"cidadeSigla" VARCHAR(2) NOT NULL DEFAULT 'CG',
+	"pais" VARCHAR(50) NOT NULL DEFAULT 'Brasil',
+	"cep" INTEGER NOT NULL,
+	"estadoSigla" character(2) NOT NULL DEFAULT 'MS',
+	"estado" VARCHAR(255) NOT NULL DEFAULT 'Mato Grosso do Sul',
+	"cidadeSigla" character(2) NOT NULL DEFAULT 'CG',
 	"cidade" VARCHAR(255) NOT NULL DEFAULT 'Campo Grande',
 	"fkbairro" serial NOT NULL,
 	"logradouro" VARCHAR(255) NOT NULL,
@@ -66,7 +65,14 @@ CREATE TABLE "Entrevistado" (
 	"genero" char(2) NOT NULL,
 	"datanascimento" date NOT NULL,
 	"idade" integer NOT NULL,
-  	"fkendereco" serial NOT NULL
+  	"fkendereco" serial NOT NULL,
+    "telefonecontato" VARCHAR(16) NOT NULL,
+    "especiedomicilioocupado" VARCHAR(64) NOT NULL,
+    "tipodomicilio" VARCHAR(64) NOT NULL,
+    "profissao" VARCHAR(64) NOT NULL,
+    "nivelescolaridade" VARCHAR(64) NOT NULL,
+    "religiao" VARCHAR(64) NOT NULL,
+    "faixarendafamilia" VARCHAR(64) NOT NULL
 ) WITH (
   OIDS=FALSE
 ); -- check
@@ -75,19 +81,36 @@ CREATE TABLE "Pesquisa" (
 	"idpesquisa" serial,
   	"fkentrevistado" serial NOT NULL,
 	"fkusuario" serial NOT NULL,
-	"fkquestionario" serial NOT NULL,
+	"fkrespostas" serial NOT NULL,
   	"datainicio" date,
   	"datafim" date
 ) WITH (
   OIDS=FALSE
 ); -- check
 
-
 CREATE TABLE "Questionario" (
-	"idquestionario" serial
+	"idquestionario" serial,
+	"descricao" VARCHAR(80) NOT NULL
 ) WITH (
   OIDS=FALSE
 ); -- check
+
+CREATE TABLE "Perguntas" (
+	"idperguntas" serial,
+  	"fkquestionario" serial NOT NULL,
+	"descricao" VARCHAR(128) NOT NULL
+) WITH (
+  OIDS=FALSE
+); -- check
+
+CREATE TABLE "Respostas" (
+	"idrespostas" serial,
+	"fkquestionario" serial NOT NULL,
+	"fkperguntas" serial NOT NULL,
+  	"valor" VARCHAR(80) NOT NULL
+) WITH (
+  OIDS=FALSE
+);
 
 CREATE TABLE "Relatorio" (
 	"idrelatorio" serial,
@@ -96,7 +119,6 @@ CREATE TABLE "Relatorio" (
 ) WITH (
   OIDS=FALSE
 );
-
 
 
 -- INSERTS
@@ -525,8 +547,8 @@ INSERT INTO "Bairro" (nome) VALUES ('Zona Rural');
 
 -- Fim Listagem de Bairros Campo Grande
 
--- INSERT INTO "Endereco" (cep,fkbairro,logradouro,numero,complemento) VALUES ('79000000',1,'Rua Divisão',1098,'Condominio Parati - casa 36'); -- check
--- INSERT INTO "Endereco" (cep,fkbairro,logradouro,numero,complemento) VALUES ('79000001',2,'Rua Gunter Hans',4872,'Ap.4'); -- check
+INSERT INTO "Endereco" (cep,fkbairro,logradouro,numero,complemento) VALUES ('79000000',1,'Rua Divisão',1098,'Condominio Parati - casa 36'); -- check
+INSERT INTO "Endereco" (cep,fkbairro,logradouro,numero,complemento) VALUES ('79000001',2,'Rua Gunter Hans',4872,'Ap.4'); -- check
  
 INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,1,'CENTRO'); -- check
 INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,2,'PROSA'); -- check
@@ -534,6 +556,66 @@ INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,3,'SEGREDO');
 INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,4,'IMBIRUSSU'); -- check
 INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,5,'ANHANDUIZINHO'); -- check
 INSERT INTO "Regiao" (pkestado,pkcidade,fkbairro,zona) VALUES (1,1,6,'BANDEIRA'); -- check
+
+-- Questionario 
+INSERT INTO "Questionario" (descricao) VALUES ('Resquisitos basicos de moradias');
+INSERT INTO "Questionario" (descricao) VALUES ('Satisfação de moradias');
+
+
+-- Perguntas 
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui saneamento básico?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside sistema de eletricidade?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside é asfaltado?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui sistema de esgoto?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui acesso a internet?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui acesso a rede de água?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui policiamento frequente?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (1,'Onde você reside possui acesso a transporte coletivo?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do sistema de saneamento básico?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do sistema de eletricidade?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha dos asfaltos da cidade?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do sistema de esgoto?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha das redes de internet?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha da rede de água?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do policiamento?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do atendimento das UPAS?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha do atendimento das UBS?');
+
+INSERT INTO "Perguntas" (fkquestionario,descricao) VALUES (2,'O que você acha sobre os transportes coletivos?');
+
+-- Entrevistado
+INSERT INTO "Entrevistado" (fkpessoa,genero,datanascimento,idade,fkendereco,telefonecontato,especiedomicilioocupado,tipodomicilio,profissao,nivelescolaridade,religiao,faixarendafamilia) VALUES (1,'M','1994/08/09',28,1,'67993227954','Própria em aquisição','Casa','Desenhista Industrial','Ensino superior incompleto','Sem religião','De três Salários até quatro Salários mínimos(4.848,00)');
+
+-- Pequisa
+INSERT INTO "Pesquisa" (fkentrevistado,fkusuario,fkrespostas,datainicio,datafim) VALUES (1,1,1,current_date,current_date);
+
+
+-- Respostas
+
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,1,'SIM');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,2,'SIM');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,3,'NÃO');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,4,'SIM');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,5,'NÃO');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,6,'NÃO');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,7,'SIM');
+INSERT INTO "Respostas" (fkquestionario,fkperguntas,valor) VALUES (1,8,'NÃO');
 
 -- PRIMARY KEY
 ALTER TABLE "Usuario"
@@ -567,10 +649,16 @@ ALTER TABLE "Questionario"
     ADD CONSTRAINT idquestionario_pkey PRIMARY KEY (idquestionario); -- check
 
 ALTER TABLE "Pesquisa"
-    ADD CONSTRAINT idpesquisa_pkey PRIMARY KEY (idpesquisa);
+    ADD CONSTRAINT idpesquisa_pkey PRIMARY KEY (idpesquisa); -- check
     
+ALTER TABLE "Perguntas"
+    ADD CONSTRAINT idperguntas_pkey PRIMARY KEY (idperguntas); -- check
+    
+ALTER TABLE "Respostas"
+    ADD CONSTRAINT idrespostas_pkey PRIMARY KEY (idrespostas); -- check
+
 ALTER TABLE "Relatorio"
-    ADD CONSTRAINT idrelatorio_pkey PRIMARY KEY (idrelatorio);
+    ADD CONSTRAINT idrelatorio_pkey PRIMARY KEY (idrelatorio); -- check
 
 
 -- FOREIGN KEY
@@ -587,6 +675,12 @@ ALTER TABLE "Entrevistado" ADD CONSTRAINT "Pessoa_fk" FOREIGN KEY ("fkpessoa") R
 
 ALTER TABLE "Pesquisa" ADD CONSTRAINT "Entrevistado_fk" FOREIGN KEY ("fkentrevistado") REFERENCES "Entrevistado"("identrevistado"); -- check
 ALTER TABLE "Pesquisa" ADD CONSTRAINT "Pessoa_fk" FOREIGN KEY ("fkusuario") REFERENCES "Usuario"("idusuario"); -- check
-ALTER TABLE "Pesquisa" ADD CONSTRAINT "Questionario_fk" FOREIGN KEY ("fkquestionario") REFERENCES "Questionario"("idquestionario"); -- check
+ALTER TABLE "Pesquisa" ADD CONSTRAINT "Respostas_fk" FOREIGN KEY ("fkrespostas") REFERENCES "Respostas"("idrespostas"); -- check
+
+ALTER TABLE "Perguntas" ADD CONSTRAINT "Questionario_fk" FOREIGN KEY ("fkquestionario") REFERENCES "Questionario"("idquestionario"); -- check
+
+ALTER TABLE "Respostas" ADD CONSTRAINT "Questionario_fk" FOREIGN KEY ("fkquestionario") REFERENCES "Questionario"("idquestionario"); -- check
+
+ALTER TABLE "Respostas" ADD CONSTRAINT "Perguntas_fk" FOREIGN KEY ("fkperguntas") REFERENCES "Perguntas"("idperguntas"); -- check
 
 ALTER TABLE "Relatorio" ADD CONSTRAINT "Pesquisa_fk" FOREIGN KEY ("fkpesquisa") REFERENCES "Pesquisa"("idpesquisa"); -- check
