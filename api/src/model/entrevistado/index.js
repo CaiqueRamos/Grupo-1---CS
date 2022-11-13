@@ -41,7 +41,14 @@ module.exports = {
               orderBy: {
                 nome: 'asc',
               }
-            }
+            },
+            telefonecontato: true,
+            especiedomicilioocupado: true,
+            tipodomicilio: true,
+            profissao: true,
+            nivelescolaridade: true,
+            religiao: true,
+            faixarendafamilia:true
           }
         }
       );
