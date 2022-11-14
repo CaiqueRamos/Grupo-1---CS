@@ -4,107 +4,54 @@ module.exports = {
   //#region getPesquisaAll
   async getPesquisaAll() {
     try {
+      // return await prisma.Respostas.findMany(
+      //   {
+      //     select:{
+      //       idrespostas:true,
+      //       Perguntas:true,
+      //       Questionario:true
+      //     }
+      //   }
+      // );
       return await prisma.Pesquisa.findMany(
         {
           select: {
             idpesquisa: true,
-            fkentrevistado: {
+            fkentrevistado:true,
+            fkusuario:true,
+            Entrevistado: {
               select: {
                 identrevistado: true,
-                fkpessoa: {
-                  select: {
-                    idpessoa: true,
-                    nome: true,
-                    cpf: true,
-                    rg: true,
-                    Entrevistado: true,
-                    Usuario: true,
-                  }
-                },
+                Pessoa:true,
                 genero: true,
                 datanascimento: true,
                 idade: true,
-                fkendereco: {
-                  select: {
-                    idendereco: true,
-                    pais: true,
-                    cep: true,
-                    estadoSigla: true,
-                    estado: true,
-                    cidadeSigla: true,
-                    cidade: true,
-                    fkbairro: {
-                      select: {
-                        idbairro: true,
-                        nome: true,
-                        Endereco: true,
-                        Regiao: true,
-                      }
-                    },
-                    logradouro: true,
-                    numero: true,
-                    complemento: true,
-                    Bairro: true,
-                    Entrevistado: true,
-                  }
-                },
-                Endereco: true,
-                Pessoa: true,
-                Pesquisa: true,
+                Endereco:true
               }
             },
-            fkusuario: {
+            Usuario: {
               select: {
                 idusuario: true,
                 senha: true,
                 email: true,
-                fkpapel: {
+                Pessoa: {
                   select: {
-                    idpapel: true,
-                    sigla: true,
-                    descricao: true,
-                    Usuario: true,
-                  }
-                },
-                fkpessoa: {
-                  select: {
-                    idpessoa: true,
                     nome: true,
-                    cpf: true,
-                    rg: true,
-                    Entrevistado: true,
-                    Usuario: true,
+                    cpf: true
                   }
                 },
-                supervisor: true,
-                Papel: true,
-                Pessoa: true,
-                Usuario: true,
-                Pesquisa: true,
-                Supervisiona: true,
-
+                Papel:true
               }
             },
-            fkquestionario: {
-              select: {
-                idquestionario: true,
-                Pesquisa: true,
-              }
-            },
+            // Respostas:true,
             datainicio: true,
-            datafim: true,
-            Entrevistado: true,
-            Usuario: true,
-            Questionario: true,
-            Relatorio: true
-          },
-          orderBy: {
-            nome: 'asc',
+            datafim: true
           }
         }
       );
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
