@@ -53,13 +53,12 @@ model Pesquisa {
   idpesquisa     Int          @id(map: "idpesquisa_pkey") @default(autoincrement())
   fkentrevistado Int          @default(autoincrement())
   fkusuario      Int          @default(autoincrement())
-  fkrespostas    Int          @default(autoincrement())
   datainicio     DateTime?    @db.Date
   datafim        DateTime?    @db.Date
   Entrevistado   Entrevistado @relation(fields: [fkentrevistado], references: [identrevistado], onDelete: NoAction, onUpdate: NoAction, map: "Entrevistado_fk")
   Usuario        Usuario      @relation(fields: [fkusuario], references: [idusuario], onDelete: NoAction, onUpdate: NoAction, map: "Pessoa_fk")
-  Respostas      Respostas    @relation(fields: [fkrespostas], references: [idrespostas], onDelete: NoAction, onUpdate: NoAction, map: "Respostas_fk")
   Relatorio      Relatorio[]
+  Resposta       Resposta[]
 }
 
 model Pessoa {
@@ -109,26 +108,27 @@ model Bairro {
 }
 
 model Questionario {
-  idquestionario Int         @id(map: "idquestionario_pkey") @default(autoincrement())
-  descricao      String      @db.VarChar(80)
-  Perguntas      Perguntas[]
-  Respostas      Respostas[]
+  idquestionario Int        @id(map: "idquestionario_pkey") @default(autoincrement())
+  descricao      String     @db.VarChar(80)
+  Pergunta       Pergunta[]
+  Resposta       Resposta[]
 }
 
-model Perguntas {
-  idperguntas    Int          @id(map: "idperguntas_pkey") @default(autoincrement())
+model Pergunta {
+  idpergunta     Int          @id(map: "idperguntas_pkey") @default(autoincrement())
   fkquestionario Int          @default(autoincrement())
   descricao      String       @db.VarChar(128)
   Questionario   Questionario @relation(fields: [fkquestionario], references: [idquestionario], onDelete: NoAction, onUpdate: NoAction, map: "Questionario_fk")
-  Respostas      Respostas[]
+  Resposta       Resposta[]
 }
 
-model Respostas {
-  idrespostas    Int          @id(map: "idrespostas_pkey") @default(autoincrement())
+model Resposta {
+  idresposta     Int          @id(map: "idrespostas_pkey") @default(autoincrement())
   fkquestionario Int          @default(autoincrement())
-  fkperguntas    Int          @default(autoincrement())
+  fkpesquisa     Int          @default(autoincrement())
+  fkpergunta     Int          @default(autoincrement())
   valor          String       @db.VarChar(80)
-  Perguntas      Perguntas    @relation(fields: [fkperguntas], references: [idperguntas], onDelete: NoAction, onUpdate: NoAction, map: "Perguntas_fk")
+  Pergunta       Pergunta     @relation(fields: [fkpergunta], references: [idpergunta], onDelete: NoAction, onUpdate: NoAction, map: "Pergunta_fk")
+  Pesquisa       Pesquisa     @relation(fields: [fkpesquisa], references: [idpesquisa], onDelete: NoAction, onUpdate: NoAction, map: "Pesquisa_fk")
   Questionario   Questionario @relation(fields: [fkquestionario], references: [idquestionario], onDelete: NoAction, onUpdate: NoAction, map: "Questionario_fk")
-  Pesquisa       Pesquisa[]
 }
