@@ -30,11 +30,12 @@ module.exports = {
             });
         }
     },
-    async getPessoaUnique(idpessoa){
-        if(!idpessoa) return false;
+    async getPessoaUnique(data){
+        const {id} = data;
+        if(!id) return false;
         try{
             return await prisma.Pessoa.findUnique({
-                where: { idpessoa },
+                where: { idpessoa:parseInt(id) },
                 select:{
                     idpessoa:true,
                     nome:true,
@@ -90,10 +91,11 @@ module.exports = {
         }
     },
     async updatePessoa(data){
-        const { idpessoa,nome,rg } = data;
+        const { id,nome,rg } = data;
+        if(!id) return false;
         try{
             const pessoa = await prisma.Pessoa.update({
-                where:{idpessoa},
+                where:{idpessoa:parseInt(id)},
                 data:{
                     nome,
                     rg
@@ -103,6 +105,7 @@ module.exports = {
 
         }catch(error){
             throw console.log({
+                error,
                 name: 'Prisma error',
                 message: "https://www.prisma.io/docs/reference/api-reference/error-reference#"+error.code,
                 code: error.code,
@@ -111,12 +114,13 @@ module.exports = {
             });
         }
     },
-    async deletePessoa(idpessoa){
-        const data = await prisma.Pessoa.findUnique({ where: { idpessoa },});
+    async deletePessoa(data){
+        const {id} = data;
+        const pessoa = await this.getPessoaUnique({id});
         try{
-            if(!data) return false;
+            if(!pessoa) return false;
             return await prisma.Pessoa.delete({
-                where: { idpessoa },
+                where: { idpessoa:pessoa.idpessoa },
                 select:{
                     nome:true,
                     cpf:true,
@@ -125,6 +129,7 @@ module.exports = {
             });
         }catch(error){
             throw console.log({
+                error,
                 name: 'Prisma error',
                 message: "https://www.prisma.io/docs/reference/api-reference/error-reference#"+error.code,
                 code: error.code,

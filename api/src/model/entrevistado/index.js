@@ -196,7 +196,7 @@ module.exports = {
   async deleteEntrevistado(data) {
     const {id} = data;
     if(!id) return false;
-    data = await getEntrevistadoUnique({id});
+    data = await this.getEntrevistadoUnique({id});
     try {
       if (!data) return false;
       return await prisma.Entrevistado.delete({

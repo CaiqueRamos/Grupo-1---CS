@@ -35,8 +35,8 @@ router.delete('/auth/usuario/deletar', delUsuario);
 router.post('/auth/pessoa/cadastro', createPessoa);
 router.get('/auth/pessoa/:id', getPessoaUnique);
 router.get('/auth/pessoas', getPessoaAll);
-router.put('/auth/pessoa/alterar', altPessoa);
-router.delete('/auth/pessoa/deletar', delPessoa);
+router.put('/auth/pessoa/alterar/:id', altPessoa);
+router.delete('/auth/pessoa/deletar/:id', delPessoa);
 router.get('/auth/supervisor',getSupervisor);
 
 // Routes Entrevistado
@@ -92,7 +92,7 @@ router.delete('/auth/resposta/deletar/:id', delResposta);
 router.post('/auth/papel/cadastro',createPapel);
 router.get('/auth/papel/:id',getPapelUnique);
 router.get('/auth/papeis',getPapelAll);
-router.put('/auth/papel/alterar',altPapel);
-router.delete('/auth/papel/deletar',delPapel);
+router.put('/auth/papel/alterar/:id',altPapel);
+router.delete('/auth/papel/deletar/:id',delPapel);
 
 module.exports = router;

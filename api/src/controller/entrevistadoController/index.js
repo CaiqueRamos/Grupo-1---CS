@@ -80,6 +80,7 @@ module.exports = {
             return res.status(status(200).reqStatus).json({ message: status(200).message, data, status: status(200).reqStatus });
 
         } catch (error) {
+            console.log(error);
             res.status(status(500).reqStatus).json({ message: status(500).message, status: status(500).reqStatus });
         }
     },

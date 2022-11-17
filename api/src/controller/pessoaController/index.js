@@ -94,25 +94,10 @@ module.exports = {
         }
     },
     async getPessoaUnique(req,res){
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-       //#endregion
         try{
-            
-            if(!req.params.id) return res.status(status(401).reqStatus).json({message:status(401).message,status:status(401).reqStatus});
+            if(!req.params) return res.status(status(401).reqStatus).json({message:status(401).message,status:status(401).reqStatus});
 
-            const data = await pessoaModel.getPessoaUnique(parseInt(req.params.id));
+            const data = await pessoaModel.getPessoaUnique(req.params);
             
             if(!data) return res.status(400).json({message:'Não foi possível atualizar essa informação!',data:null,status:status(400).reqStatus});
 
@@ -123,25 +108,10 @@ module.exports = {
         }
     },
     async altPessoa(req,res){
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-       //#endregion
         try{
-            
-            if(!req.body) return res.status(status(401).reqStatus).json({message:status(401).message,status:status(401).reqStatus});
+            if(!req.params) return res.status(status(401).reqStatus).json({message:status(401).message,status:status(401).reqStatus});
 
-            const data = await pessoaModel.updatePessoa(req.body);
+            const data = await pessoaModel.updatePessoa({...req.params,...req.body});
             
             if(!data) return res.status(400).json({message:'Não foi possível atualizar essa informação!',data:null,status:status(400).reqStatus});
 
