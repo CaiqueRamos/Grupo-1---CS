@@ -1,4 +1,5 @@
-const prisma = require('@db');
+const {PrismaClient} = require('@prisma/client');
+const prisma = new PrismaClient();
 module.exports = {
   //#region getRespostaAll
   async getRespostaAll() {
@@ -31,22 +32,24 @@ module.exports = {
 
   //#region getRespostaUnique
   async getRespostaUnique(data) {
-    const { idresposta } = data;
-    if (!idresposta) return false;
+    const { id } = data;
+    if (!id) return false;
     try {
-      return await prisma.Resposta.findUnique({
-        where: { idresposta },
+      return await prisma.resposta.findUnique({
+        where: { idresposta:parseInt(id) },
         select: {
           idresposta: true,
           fkquestionario:true,
-          fkperguntas:true,
+          fkpergunta:true,
+          fkpesquisa:true,
           valor:true,
-          Perguntas:true,
+          Pergunta:true,
           Questionario:true
         }
       });
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
@@ -56,17 +59,16 @@ module.exports = {
     }
   },
   //#endregion getRespostaUnique
-
   //#region createResposta
   async createResposta(data) {
-    const { fkquestionario, fkperguntas, valor } = data;
-    console.log(data);
+    const { fkquestionario, fkpesquisa,fkpergunta,valor } = data;
     try {
       return await prisma.Resposta.create({
-        data:{
-          fkquestionario:true,
-          fkperguntas:true,
-          valor:true
+        data: {
+          fkquestionario,
+          fkpesquisa,
+          fkpergunta,
+          valor
         }
       });
     } catch (error) {
@@ -84,18 +86,19 @@ module.exports = {
 
   //#region updateResposta 
   async updateResposta(data) {
-    const { idresposta,fkquestionario, fkperguntas, valor } = data;
+    const { id,fkquestionario,fkpergunta, valor } = data;
     try {
       return await prisma.Resposta.update({
-        where: { idresposta },
+        where: { idresposta:parseInt(id) },
         data: {
-          fkquestionario,
-          fkperguntas,
+          fkquestionario:parseInt(fkquestionario),
+          fkpergunta:parseInt(fkpergunta),
           valor
         }
       });
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
@@ -108,20 +111,25 @@ module.exports = {
 
   //#region deleteResposta
   async deleteResposta(data) {
-    const {idresposta} = data;
-    const resposta = await prisma.Resposta.findUnique({where:{ idresposta }});
+    const {id} = data;
+    const resposta = await prisma.Resposta.findUnique({where:{idresposta:parseInt(id)}});
     try {
       if (!resposta) return false;
       return await prisma.Resposta.delete({
-        where: { idResposta },
+        where: { idresposta:resposta.idresposta },
         select: {
+          idresposta: true,
           fkquestionario:true,
-          fkperguntas:true,
-          valor:true
+          fkpergunta:true,
+          fkpesquisa:true,
+          valor:true,
+          Pergunta:true,
+          Questionario:true
         }
       });
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,

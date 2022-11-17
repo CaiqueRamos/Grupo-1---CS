@@ -1,11 +1,11 @@
 const prisma = require('@db');
 const md5 = require('md5');
-const { getRespostaAll } = require('../resposta/index');
+const { createResposta } = require('../resposta/index');
 module.exports = {
   //#region getPesquisaAll
   async getPesquisaAll() {
     try {
-      const pesquisa =  await prisma.Pesquisa.findMany(
+      return await prisma.Pesquisa.findMany(
         {
           select: {
             idpesquisa: true,
@@ -35,15 +35,23 @@ module.exports = {
                 Papel:true
               }
             },
+            Resposta:{
+              select:{
+                idresposta:true,
+                fkquestionario:true,
+                Pergunta:{
+                  select:{
+                    descricao:true
+                  }
+                },
+                valor:true
+              }
+            },
             datainicio: true,
             datafim: true
           }
         }
       );
-      // const respostas = await getRespostaAll();
-      console.log(pesquisa);
-      // return {...pesquisa,...respostas};
-      return pesquisa;
     } catch (error) {
       throw console.log({
         error,
@@ -59,11 +67,11 @@ module.exports = {
 
   //#region getPesquisaUnique
   async getPesquisaUnique(data) {
-    const { idpesquisa } = data;
-    if (!idpesquisa) return false;
+    const { id } = data;
+    if (!id) return false;
     try {
       return await prisma.Pesquisa.findUnique({
-        where: { idpesquisa },
+        where: { idpesquisa:parseInt(id) },
         select: {
           idpesquisa: true,
           fkentrevistado:true,
@@ -92,7 +100,18 @@ module.exports = {
               Papel:true
             }
           },
-          // Respostas:true,
+          Resposta:{
+            select:{
+              idresposta:true,
+              fkquestionario:true,
+              Pergunta:{
+                select:{
+                  descricao:true
+                }
+              },
+              valor:true
+            }
+          },
           datainicio: true,
           datafim: true
         }
@@ -111,18 +130,17 @@ module.exports = {
 
   //#region createPesquisa
   async createPesquisa(data) {
-    const { fkentrevistado, fkusuario, fkrespostas, datainicio, datafim } = data;
-    console.log(data);
+    const { fkentrevistado,fkusuario, datainicio, datafim } = data;
     try {
-      return await prisma.Pesquisa.create({
+      const pesquisa = await prisma.Pesquisa.create({
         data: {
           fkentrevistado,
           fkusuario,
-          fkrespostas,
-          datainicio,
-          datafim
+          datainicio:new Date(datainicio),
+          datafim:new Date(datafim)
         }
       });
+      return pesquisa;
     } catch (error) {
       throw console.log({
         error,
@@ -138,20 +156,20 @@ module.exports = {
 
   //#region updatePesquisa 
   async updatePesquisa(data) {
-    const { identrevistado, idusuario, idquestionario, datainicio, datafim } = data;
+    const { id, fkentrevistado, fkusuario } = data;
     try {
+      const pesquisa = await this.getPesquisaUnique({id});
+      if(!pesquisa) return false;
       return await prisma.Pesquisa.update({
-        where: { idpesquisa },
+        where: { idpesquisa:pesquisa.idpesquisa },
         data: {
-          identrevistado,
-          idusuario,
-          idquestionario,
-          datainicio,
-          datafim
+          fkentrevistado,
+          fkusuario
         }
       });
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
@@ -163,19 +181,54 @@ module.exports = {
   //#endregion updatePesquisa
 
   //#region deletePesquisa
-  async deletePesquisa(cpf) {
-    const data = await prisma.Pesquisa.findUnique({ where: { cpf }, });
+  async deletePesquisa(data) {
+    const { id } = data;
+    if (!id) return false;
     try {
-      if (!data) return false;
       return await prisma.Pesquisa.delete({
-        where: { idpesquisa },
+        where: { idpesquisa:parseInt(id) },
         select: {
           idpesquisa: true,
-          fkentrevistado: true,
-          fkusuario: true,
-          fkquestionario: true,
+          fkentrevistado:true,
+          fkusuario:true,
+          Entrevistado: {
+            select: {
+              identrevistado: true,
+              Pessoa:true,
+              genero: true,
+              datanascimento: true,
+              idade: true,
+              Endereco:true
+            }
+          },
+          Usuario: {
+            select: {
+              idusuario: true,
+              senha: true,
+              email: true,
+              Pessoa: {
+                select: {
+                  nome: true,
+                  cpf: true
+                }
+              },
+              Papel:true
+            }
+          },
+          Resposta:{
+            select:{
+              idresposta:true,
+              fkquestionario:true,
+              Pergunta:{
+                select:{
+                  descricao:true
+                }
+              },
+              valor:true
+            }
+          },
           datainicio: true,
-          datafim: true,
+          datafim: true
         }
       });
     } catch (error) {

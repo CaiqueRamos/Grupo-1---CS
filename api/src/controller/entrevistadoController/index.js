@@ -1,28 +1,13 @@
 const entrevistadoModel = require("@model/entrevistado");
 const { status } = require("@helper/Status/index");
-const { Papel } = require("@helper/");
 
 module.exports = {
     //#region CREATE
     async createEntrevistado(req, res) {
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-        //#endregion
         try {
             if (!req.body) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
 
-            const data = await entrevistadoModel.createentrevistado(req.body);
+            let data = await entrevistadoModel.createEntrevistado(req.body);
 
             if (!data) return res.status(400).json({ message: 'Não foi possível atualizar essa informação!', data: null, status: status(400).reqStatus });
 
@@ -36,22 +21,8 @@ module.exports = {
 
     //#region GETALL
     async getEntrevistadoAll(req, res) {
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-        //#endregion
         try {
-            const data = await entrevistadoModel.getentrevistadoAll();
+            let data = await entrevistadoModel.getEntrevistadoAll();
 
             if (!data) return res.status(400).json({ message: 'Não foi possível atualizar essa informação!', data: null, status: status(400).reqStatus });
 
@@ -65,25 +36,11 @@ module.exports = {
 
     //#region GETUNIQUE
     async getEntrevistadoUnique(req, res) {
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-        //#endregion
         try {
 
-            if (!req.body) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
-
-            const data = await entrevistadoModel.getentrevistadoUnique(req.body);
+            if (!req.params) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
+            console.log(req.params);
+            let data = await entrevistadoModel.getEntrevistadoUnique(req.params);
 
             if (!data) return res.status(400).json({ message: 'Não foi possível atualizar essa informação!', data: null, status: status(400).reqStatus });
 
@@ -97,24 +54,10 @@ module.exports = {
 
     //#region POSTUNIQUE
     async altEntrevistado(req, res) {
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-        //#endregion
         try {
-            if (!req.body) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
+            if (!req.params) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
             
-            const data = await entrevistadoModel.updateentrevistado(req.body);
+            const data = await entrevistadoModel.updateEntrevistado({...req.params,...req.body});
 
             if (!data) return res.status(400).json({ message: 'Não foi possível atualizar essa informação!', data: null, status: status(400).reqStatus });
 
@@ -128,23 +71,9 @@ module.exports = {
 
     //#region DELETEUNIQUE
     async delEntrevistado(req, res) {
-        //#region Swagger description API 
-        /*
-            Alterar o arquivo swagger_output.json com as informações do endpoint
-            #swagger.description = 'Descrição do endpoint'
-
-            #swagger.parameters[''] = {
-                description: 'Nome do parametro',
-                type: 'string',
-                required: true,
-                in: 'body',
-                example: 'admin@censo.com.br',
-            }
-        */
-        //#endregion
         try {
-            if (!req.body) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
-            const data = await entrevistadoModel.deleteentrevistado(req.body);
+            if (!req.params) return res.status(status(401).reqStatus).json({ message: status(401).message, status: status(401).reqStatus });
+            let data = await entrevistadoModel.deleteEntrevistado(req.params);
 
             if (!data) return res.status(400).json({ message: 'Não foi possível atualizar essa informação!', data: null, status: status(400).reqStatus });
 

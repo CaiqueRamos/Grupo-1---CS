@@ -291,27 +291,16 @@
         }
       }
     },
-    "/auth/entrevistado": {
+    "/auth/entrevistado/{id}": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/auth/entrevistado/alterar": {
-      "put": {
-        "description": "",
-        "parameters": [
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -325,10 +314,39 @@
         }
       }
     },
-    "/auth/entrevistado/deletar": {
+    "/auth/entrevistado/alterar/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/entrevistado/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -359,10 +377,16 @@
         }
       }
     },
-    "/auth/endereco": {
+    "/auth/endereco/{id}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -393,10 +417,16 @@
         }
       }
     },
-    "/auth/endereco/alterar": {
+    "/auth/endereco/alterar/{id}": {
       "put": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -410,10 +440,16 @@
         }
       }
     },
-    "/auth/endereco/deletar": {
+    "/auth/endereco/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -444,10 +480,16 @@
         }
       }
     },
-    "/auth/regiao": {
+    "/auth/regiao/{id}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -478,10 +520,16 @@
         }
       }
     },
-    "/auth/regiao/alterar": {
+    "/auth/regiao/alterar/{id}": {
       "put": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -495,10 +543,16 @@
         }
       }
     },
-    "/auth/regiao/deletar": {
+    "/auth/regiao/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -529,10 +583,16 @@
         }
       }
     },
-    "/auth/bairro": {
+    "/auth/bairro/{id}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -563,10 +623,16 @@
         }
       }
     },
-    "/auth/bairro/alterar": {
+    "/auth/bairro/alterar/{id}": {
       "put": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -580,10 +646,16 @@
         }
       }
     },
-    "/auth/bairro/deletar": {
+    "/auth/bairro/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -614,10 +686,16 @@
         }
       }
     },
-    "/auth/relatorio": {
+    "/auth/relatorio/{id}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -648,10 +726,16 @@
         }
       }
     },
-    "/auth/relatorio/alterar": {
+    "/auth/relatorio/alterar/{id}": {
       "put": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -665,10 +749,16 @@
         }
       }
     },
-    "/auth/relatorio/deletar": {
+    "/auth/relatorio/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -699,10 +789,16 @@
         }
       }
     },
-    "/auth/pesquisa": {
+    "/auth/pesquisa/{id}": {
       "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -733,8 +829,54 @@
         }
       }
     },
-    "/auth/pesquisa/alterar": {
+    "/auth/pesquisa/alterar/{id}": {
       "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/pesquisa/deletar/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/resposta/cadastro": {
+      "post": {
         "description": "",
         "parameters": [
           {
@@ -750,10 +892,79 @@
         }
       }
     },
-    "/auth/pesquisa/deletar": {
+    "/auth/resposta/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/respostas": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/resposta/alterar/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/resposta/deletar/{id}": {
       "delete": {
         "description": "",
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "authorization",
             "in": "header",
@@ -852,34 +1063,6 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/swagger": {
-      "get": {
-        "description": "Descrição do endpoint",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "",
-            "description": "Token",
-            "type": "string",
-            "required": true,
-            "in": "Atu",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZHVzdWFyaW8iOjYsImVtYWlsIjoiYnJ1bm8uZmVycmVpcmFAY2Vuc29ici5jb20uYnIiLCJwYXBlbCI6IkdTIiwiaWF0IjoxNjY0ODg4ODMxLCJleHAiOjE2NjQ5NzUyMzF9.O_8eGXCn-MO9uriHlgdBbsGkP43pgA9MBY5zVX24qFU"
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request"
-          },
           "401": {
             "description": "Unauthorized"
           }

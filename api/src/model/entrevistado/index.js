@@ -1,8 +1,5 @@
 const prisma = require('@db');
 module.exports = {
-
-  // TODO analisar a necessidade do campo de email
-
   //#region  getEntrevistadoAll
   async getEntrevistadoAll() {
     try {
@@ -37,9 +34,6 @@ module.exports = {
                 logradouro: true,
                 numero: true,
                 complemento: true,
-              },
-              orderBy: {
-                nome: 'asc',
               }
             },
             telefonecontato: true,
@@ -66,11 +60,11 @@ module.exports = {
 
   //#region getEntrevistadoUnique
   async getEntrevistadoUnique(data) {
-    const { identrevistado } = data;
-    if (!identrevistado) return false;
+    const { id } = data;
+    if (!id) return false;
     try {
       return await prisma.Entrevistado.findUnique({
-        where: { identrevistado },
+        where: { identrevistado:parseInt(id) },
         select: {
           identrevistado: true,
           Pessoa: {
@@ -100,11 +94,15 @@ module.exports = {
               logradouro: true,
               numero: true,
               complemento: true,
-            },
-            orderBy: {
-              nome: 'asc',
             }
-          }
+          },
+          telefonecontato: true,
+          especiedomicilioocupado: true,
+          tipodomicilio: true,
+          profissao: true,
+          nivelescolaridade: true,
+          religiao: true,
+          faixarendafamilia:true
         }
       });
     } catch (error) {
@@ -121,45 +119,30 @@ module.exports = {
 
   //#region createEntrevistado
   async createEntrevistado(data) {
-    const {nome, cpf, rg, genero, datanascimento, idade, pais, cep, estadoSigla, cidade, idbairro, logradouro, numero, complemento, } = data;
+    const {fkpessoa, genero, datanascimento, idade, fkendereco, telefonecontato, especiedomicilioocupado, tipodomicilio, profissao, nivelescolaridade, religiao, faixarendafamilia} = data;
     try {
-      const pessoa = await prisma.Pessoa.create({
-        data: {
-          nome,
-          cpf,
-          rg
-        }
-      });
-
-      const endereco = await prisma.Endereco.create({
-        data: {
-          pais,
-          cep,
-          estadoSigla,
-          estado,
-          cidadeSigla,
-          cidade,
-          idbairro,
-          logradouro,
-          numero,
-          complemento
-        }
-      });
       const entrevistado = await prisma.Entrevistado.create({
         data: {
-          identrevistado,
-          fkpessoa: pessoa.idpessoa,
+          fkpessoa,
           genero,
-          datanascimento,
+          datanascimento: new Date(datanascimento),
           idade,
-          fkendereco: endereco.idendereco
+          fkendereco,
+          telefonecontato,
+          especiedomicilioocupado,
+          tipodomicilio,
+          profissao,
+          nivelescolaridade,
+          religiao,
+          faixarendafamilia
         }
       });
 
-      return (pessoa, endereco, entrevistado);
+      return entrevistado;
 
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
@@ -172,50 +155,33 @@ module.exports = {
 
   //#region updateEntrevistado
   async updateEntrevistado(data) {
-    const {nome, cpf, rg, genero, datanascimento, idade, pais, cep, estadoSigla, cidade, idbairro, logradouro, numero, complemento, } = data;
+    const {id,fkpessoa, genero, datanascimento, idade, fkendereco, telefonecontato, especiedomicilioocupado, tipodomicilio, profissao, nivelescolaridade, religiao, faixarendafamilia} = data;
     try {
-      const pessoa = await prisma.Pessoa.update({
-        where: { idpessoa },
+      let entrevistado = await this.getEntrevistadoUnique({id});
+      if(!entrevistado) return false;
+      entrevistado = await prisma.Entrevistado.update({
+        where: { identrevistado:entrevistado.identrevistado },
         data: {
-          nome,
-          cpf,
-          rg
-        }
-      });
-
-      const endereco = await prisma.Endereco.update({
-        where: { idendereco },
-        data: {
-          idendereco,
-          pais,
-          cep,
-          estadoSigla,
-          estado,
-          cidadeSigla,
-          cidade,
-          fkbairro,
-          logradouro,
-          numero,
-          complemento
-        }
-      });
-
-      const entrevistado = await prisma.Entrevistado.update({
-        where: { idpessoa },
-        data: {
-          identrevistado,
-          fkpessoa: pessoa.idpessoa,
+          fkpessoa,
           genero,
-          datanascimento,
+          datanascimento: new Date(datanascimento),
           idade,
-          fkendereco: endereco.idendereco
+          fkendereco,
+          telefonecontato,
+          especiedomicilioocupado,
+          tipodomicilio,
+          profissao,
+          nivelescolaridade,
+          religiao,
+          faixarendafamilia
         }
       });
 
-      return {entrevistado, pessoa, endereco};
+      return entrevistado;
       
     } catch (error) {
       throw console.log({
+        error,
         name: 'Prisma error',
         message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
         code: error.code,
@@ -226,34 +192,55 @@ module.exports = {
   },
   //#endregion updateEntrevistado
 
-  //TODO Verifica a necessidade de exclusão do entrevistado! Grupo
   //#region deleteEntrevistado
-  async deleteEntrevistado(identrevistado) {
-    const data = await prisma.Entrevistado.findUnique({ where: { identrevistado }, });
+  async deleteEntrevistado(data) {
+    const {id} = data;
+    if(!id) return false;
+    data = await getEntrevistadoUnique({id});
     try {
       if (!data) return false;
-
-      // TODO se o grupo decidir manter a exclusão corrigir os erros(Melhorado)
-      // const entrevistadodeletado = await prisma.Entrevistado.delete({ where: { identrevistado } })
-      // const enderecoentrevistadodeletado = await prisma.Endereco.delete({ where: { identrevistado.idendereco } })
-      // const pessoaentrevistadodeletado = await prisma.Pessoa.delete({ where: { identrevistado.idpessoa } })
-      
-      //replicado
-      // return await prisma.Entrevistado.delete({
-      //   where: { identrevistado },
-      //   select: {
-      //     nome: true,
-      //     email: true,
-      //     Papel: {
-      //       select: {
-      //         silga: true,
-      //         descricao: true
-      //       }
-      //     },
-      //   }
-      // });
-
-      return "sucesso";
+      return await prisma.Entrevistado.delete({
+        where:{identrevistado:data.identrevistado},
+        select: {
+          identrevistado: true,
+          Pessoa: {
+            select: {
+              nome: true,
+              cpf: true
+            }
+          },
+          genero: true,
+          datanascimento: true,
+          idade: true,
+          Endereco: {
+            select: {
+              idendereco: true,
+              pais: true,
+              cep: true,
+              estadoSigla: true,
+              estado: true,
+              cidadeSigla: true,
+              cidade: true,
+              Bairro: {
+                select: {
+                  idbairro: true,
+                  nome: true,
+                }
+              },
+              logradouro: true,
+              numero: true,
+              complemento: true,
+            }
+          },
+          telefonecontato: true,
+          especiedomicilioocupado: true,
+          tipodomicilio: true,
+          profissao: true,
+          nivelescolaridade: true,
+          religiao: true,
+          faixarendafamilia:true
+        }
+      })
       
     } catch (error) {
       throw console.log({
@@ -266,5 +253,4 @@ module.exports = {
     }
   }
   //#endregion deleteEntrevistado
-
 }
