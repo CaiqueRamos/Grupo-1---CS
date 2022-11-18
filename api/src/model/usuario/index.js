@@ -20,7 +20,7 @@ module.exports = {
                                 descricao:true
                             }
                         },
-                        Supervisiona:{
+                        Usuario:{
                             select:{
                                 email:true,
                                 Pessoa:{
@@ -49,7 +49,7 @@ module.exports = {
             return await prisma.Usuario.findMany(
                 {
                     select:{
-                        Supervisiona:{
+                        Usuario:{
                             select:{
                                 Pessoa:{
                                     select:{
@@ -119,7 +119,7 @@ module.exports = {
                             descricao:true
                         }
                     },
-                    Supervisiona:{
+                    Usuario:{
                         select:{
                             email:true,
                             Pessoa:{
