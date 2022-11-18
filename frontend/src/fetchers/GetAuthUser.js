@@ -1,5 +1,7 @@
+import { URL_REQUEST } from "../constants"
+
 export const GetAuthUser = (token) => {
-    return fetch('https://censo-ufms.herokuapp.com/authenticate', {
+    return fetch(`${URL_REQUEST}/authenticate`, {
         method: 'GET',
         headers: {
             "Authorization": "Bearer " + token

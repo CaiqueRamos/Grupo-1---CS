@@ -10,6 +10,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { Pesquisa } from './pages/Pesquisa/index.js';
 import { Login } from './pages/Login/index.js';
 import { Gestao } from './pages/Gestao/index.js';
 
@@ -49,6 +50,7 @@ function App() {
     <MediaProvider mediaType={mediaType}>
       <BrowserRouter>
         <Routes>
+          <Route path="/pesquisas" element={<Pesquisa />} />
           <Route path="/login" element={<Login />} />
           <Route path="/gestao" element={<Gestao />} />
           <Route path="*" element={<Gestao />} />

@@ -105,10 +105,8 @@ export const Gestao = () => {
                             <Image src={logo} />
                         </Flex>
                         <Flex alignItems='center'>
-                            <Text cursor="pointer" mx="15px">Dashboard</Text>
+                            <Text cursor="pointer" mx="15px">Nova Pesquisa</Text>
                             <Text cursor="pointer" mx="15px" color="#00A954" fontWeight="medium">Gestão</Text>
-                            <Text cursor="pointer" mx="15px">Relatórios</Text>
-                            <Text cursor="pointer" mx="15px">Saiba Mais</Text>
                         </Flex>
                         <Flex>
                             <Flex>
@@ -127,20 +125,16 @@ export const Gestao = () => {
                         </Flex>
                     </Flex>
                     <Flex p="19px" borderBottom="solid 0.1px grey" justifyContent='center'>
+
                         <Flex alignItems='center'>
-                            <Text cursor="pointer" mx="15px">Pesquisa</Text>
-                            <Text cursor="pointer" mx="15px" color="#00A954" fontWeight="medium">Usuário</Text>
-                            <Text cursor="pointer" mx="15px">Papeis</Text>
-                            <Text cursor="pointer" mx="15px">Regiões</Text>
-                            <Text cursor="pointer" mx="15px">Endereços</Text>
-                            <Text cursor="pointer" mx="15px">Bairros</Text>
+                            <Text cursor="pointer" mx="15px" onClick={() => window.location.href = "/pesquisas"}>Pesquisas</Text>
+                            <Text cursor="pointer" mx="15px" color="#00A954" fontWeight="medium">Usuários</Text>
                         </Flex>
                     </Flex>
                     <Box p="19px" px="171px" py="33px">
                         <Flex justifyContent='space-between' w="full" align="center" mb="30px" p="20px">
                             <Text fontSize='20px'>Listagem de usuários</Text>
                             <Flex>
-                                <Button mr="10px" border='solid 1px grey' color="grey">Exportar  <EditIcon w={5} h={5} ml="10px" /></Button>
                                 <Button bgColor="#00A954" color='white' onClick={onOpen}>Novo <SmallAddIcon w={5} h={5} ml="5px" /></Button>
                             </Flex>
                             <Modal isOpen={isOpen} onClose={onClose} size="xl">

@@ -1,5 +1,7 @@
+import { URL_REQUEST } from "../constants"
+
 export const GetLogin = (email, password) => {
-    const response = fetch('https://censo-ufms.herokuapp.com/auth', {
+    const response = fetch(`${URL_REQUEST}/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

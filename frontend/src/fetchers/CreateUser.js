@@ -1,5 +1,7 @@
+import { URL_REQUEST } from "../constants"
+
 export const CreateUser = (email, senha, fkpapel, supervisor, nome, cpf, rg, token) => {
-    const response = fetch('https://censo-ufms.herokuapp.com/auth/usuario/cadastro', {
+    const response = fetch(`${URL_REQUEST}/auth/usuario/cadastro`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', "Authorization": "Bearer " + token },
         body: JSON.stringify({
