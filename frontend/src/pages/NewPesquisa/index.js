@@ -110,7 +110,7 @@ export const NovaPesquisa = () => {
                 CreatePesquisa(values.nome, values.cpf, values.rg, values.genero,
                     parseInt(values.idade), values.logradouro, parseInt(values.numero), q1, q2, q3, q4, q5, q6, q7, q8,
                     localStorage.getItem("token"));
-                window.location.href = "/pesquisa"
+                window.location.href = "/pesquisas"
             }}
         >
             {(props) => (
