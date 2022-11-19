@@ -1069,6 +1069,212 @@
           }
         }
       }
+    },
+    "/papel/cadastro": {
+      "post": {
+        "tags": [
+          "Papel"
+        ],
+        "description": "Descrição do endpoint",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "createPapel",
+            "in": "body",
+            "description": "Informações da Papel.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            },
+            "description": "Papel cadastrada!."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/papeis": {
+      "get": {
+        "tags": [
+          "Papel"
+        ],
+        "description": "Descrição do endpoint",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "getPapelAll",
+            "in": "body",
+            "description": "Informações da Papel.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Papel"
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Lista de papels!."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/papel": {
+      "get": {
+        "tags": [
+          "Papel"
+        ],
+        "description": "Descrição do endpoint",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "getPapelUnique",
+            "in": "body",
+            "description": "Informações da Papel.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/papel/deletar": {
+      "delete": {
+        "tags": [
+          "Papel"
+        ],
+        "description": "Descrição do endpoint",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "delPapel",
+            "in": "body",
+            "description": "Informações da Papel.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Papel"
+            },
+            "description": "Papel Deletada!."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pessoa/cadastro": {
+      "post": {
+        "tags": [
+          "Pessoa"
+        ],
+        "description": "Descrição do endpoint",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "createPessoa",
+            "in": "body",
+            "description": "Informações da Pessoa.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pessoa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Pessoa"
+            },
+            "description": "Pessoa cadastrada!."
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        }
+      }
+    },
+    "/pessoas": {
+      "get": {
+        "tags": [
+          "Pessoa"
+        ],
+        "description": "Retorna um array de pessoas.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pessoa"
+              },
+              "xml": {
+                "name": "main"
+              }
+            },
+            "description": "Lista de pessoas!."
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   }
 }

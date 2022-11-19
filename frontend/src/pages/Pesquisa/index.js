@@ -97,7 +97,7 @@ export const Pesquisa = () => {
                         <Image src={logo} />
                     </Flex>
                     <Flex alignItems='center'>
-                        <Text cursor="pointer" mx="15px">Nova Pesquisa</Text>
+                        <Text cursor="pointer" mx="15px" onClick={() => window.location.href = "/nova-pesquisa"}>Nova Pesquisa</Text>
                         <Text cursor="pointer" mx="15px" color="#00A954" fontWeight="medium">Gestão</Text>
                     </Flex>
                     <Flex>

@@ -13,6 +13,7 @@ import {
 import { Pesquisa } from './pages/Pesquisa/index.js';
 import { Login } from './pages/Login/index.js';
 import { Gestao } from './pages/Gestao/index.js';
+import { NovaPesquisa } from './pages/NewPesquisa/index.js';
 
 function App() {
   const [isMobile, isDesktop] = useMediaQuery([MEDIA_QUERY_MOBILE, MEDIA_QUERY_DESKTOP]);
@@ -53,6 +54,7 @@ function App() {
           <Route path="/pesquisas" element={<Pesquisa />} />
           <Route path="/login" element={<Login />} />
           <Route path="/gestao" element={<Gestao />} />
+          <Route path="/nova-pesquisa" element={<NovaPesquisa />} />
           <Route path="*" element={<Gestao />} />
         </Routes>
       </BrowserRouter>
