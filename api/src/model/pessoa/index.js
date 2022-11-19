@@ -65,12 +65,10 @@ module.exports = {
         try{
             
             let pessoa = await prisma.Pessoa.findFirst({
-                where:{
-                    cpf,
-                }
+                where:{cpf}
             });
             
-            if(pessoa) return {message:"Pessoa já cadastrada!"};
+            if(pessoa) return {message:"Pessoa já cadastrada!",idpessoa:pessoa.idpessoa};
             
             pessoa = await prisma.Pessoa.create({
                 data:{

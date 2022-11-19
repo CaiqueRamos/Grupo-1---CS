@@ -14,7 +14,7 @@ const { createEntrevistado, getEntrevistadoAll, getEntrevistadoUnique, altEntrev
 const { createRegiao, getRegiaoAll, getRegiaoUnique, altRegiao, delRegiao } = require('@controller/regiaoController');
 const { createBairro, getBairroAll, getBairroUnique, altBairro, delBairro } = require('@controller/bairroController');
 const { createRelatorio, getRelatorioAll, getRelatorioUnique, altRelatorio, delRelatorio } = require('@controller/relatorioController');
-const { createPesquisa, getPesquisaAll, getPesquisaUnique, altPesquisa, delPesquisa } = require('@controller/pesquisaController');
+const { createPesquisa, getPesquisaAll, getPesquisaUnique, altPesquisa, delPesquisa,getPerguntaAll } = require('@controller/pesquisaController');
 const { createPapel, getPapelAll, getPapelUnique, altPapel, delPapel } = require('@controller/papelController');
 const { createResposta, getRespostaAll, getRespostaUnique, altResposta, delResposta } = require('@controller/respostaController');
 
@@ -78,6 +78,7 @@ router.delete('/auth/relatorio/deletar/:id', delRelatorio);
 router.post('/auth/pesquisa/cadastro',createPesquisa);
 router.get('/auth/pesquisa/:id',getPesquisaUnique);
 router.get('/auth/pesquisas',getPesquisaAll);
+router.get('/auth/perguntas',getPerguntaAll);
 router.put('/auth/pesquisa/alterar/:id',altPesquisa);
 router.delete('/auth/pesquisa/deletar/:id', delPesquisa);
 

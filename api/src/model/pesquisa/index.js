@@ -1,8 +1,25 @@
 const prisma = require('@db');
-const md5 = require('md5');
+const { createBairro } = require('../bairro/index');
+const { createEndereco } = require('../endereco/index');
+const { createEntrevistado } = require('../entrevistado/index');
+const { createPessoa } = require('../pessoa/index');
 const { createResposta } = require('../resposta/index');
 module.exports = {
   //#region getPesquisaAll
+  async getPerguntaAll() {
+    try {
+      return await prisma.Pergunta.findMany();
+    } catch (error) {
+      throw console.log({
+        error,
+        name: 'Prisma error',
+        message: "https://www.prisma.io/docs/reference/api-reference/error-reference#" + error.code,
+        code: error.code,
+        meta: error.meta,
+        stack: 'getPesquisaAll()'
+      });
+    }
+  },
   async getPesquisaAll() {
     try {
       return await prisma.Pesquisa.findMany(
@@ -130,17 +147,29 @@ module.exports = {
 
   //#region createPesquisa
   async createPesquisa(data) {
-    const { fkentrevistado,fkusuario, datainicio, datafim } = data;
+    const { fkusuario,Pessoa, Entrevistado, Bairro,Endereco,Resposta,datainicio,datafim } = data;
     try {
-      const pesquisa = await prisma.Pesquisa.create({
-        data: {
-          fkentrevistado,
-          fkusuario,
-          datainicio:new Date(datainicio),
-          datafim:new Date(datafim)
-        }
-      });
-      return pesquisa;
+    let pessoa = await createPessoa({...Pessoa});
+    let bairro = await createBairro({...Bairro});
+    let endereco = await createEndereco({...Endereco,fkbairro:bairro.idbairro});
+    let entrevistado = await createEntrevistado({...Entrevistado,fkpessoa:pessoa.idpessoa,fkendereco:endereco.idendereco});
+
+    let pesquisa = await prisma.Pesquisa.create({
+      data: {
+        fkentrevistado:entrevistado.identrevistado,
+        fkusuario,
+        datainicio:new Date(datainicio),
+        datafim:new Date(datafim)
+      }
+    });
+
+    let resposta = [];
+
+    for (let index = 0; index < Resposta.length; index++) {
+      resposta.push(await createResposta({...Resposta[index],fkpesquisa:pesquisa.idpesquisa}));
+    }
+
+    return pesquisa;
     } catch (error) {
       throw console.log({
         error,

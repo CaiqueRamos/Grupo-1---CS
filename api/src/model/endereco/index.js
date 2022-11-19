@@ -110,7 +110,7 @@ module.exports = {
                 }
             });
             
-            if(endereco) return {message:"Endereco já cadastrada!"};
+            if(endereco) return {message:"Endereco já cadastrada!",idendereco:endereco.idendereco};
             
             endereco = await prisma.Endereco.create({
                 data:{

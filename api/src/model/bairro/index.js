@@ -49,7 +49,7 @@ module.exports = {
                 where:{ nome }
             });
             
-            if(bairro) return {message:"bairro já cadastrada!"};
+            if(bairro) return {message:"bairro já cadastrada!",idbairro:bairro.idbairro};
             
             bairro = await prisma.Bairro.create({
                 data:{ nome }
